@@ -1,0 +1,39 @@
+plugins {
+  id 'java'
+  id 'org.jetbrains.kotlin.jvm' version "${kotlinVersion}"
+  id 'application'
+}
+
+group = 'test.vnodes.hashing'
+mainClassName = 'test.vnode.hashing.MainKt'
+applicationDefaultJvmArgs = ['-Djava.net.preferIPv4Stack=true']
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
+  implementation "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${kotlinCoroutinesVersion}"
+  implementation "org.slf4j:slf4j-api:${slf4jVersion}"
+  implementation "com.datastax.oss:java-driver-core:${datastaxJavaDriverVersion}"
+  runtimeOnly "ch.qos.logback:logback-classic:${logbackClassicVersion}"
+}
+
+test {
+  useJUnitPlatform()
+}
+
+compileTestKotlin {
+  kotlinOptions {
+    jvmTarget = '1.8'
+    allWarningsAsErrors = true
+  }
+}
+
+compileKotlin {
+  kotlinOptions {
+    jvmTarget = '1.8'
+    allWarningsAsErrors = true
+  }
+}

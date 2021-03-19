@@ -1,0 +1,53 @@
+version: "3.8"
+services:
+  test_node_0:
+    image: bitnami/cassandra:3.11.9
+    networks:
+      test_network_0:
+        ipv4_address: 172.16.238.42
+    ports:
+      - "19042:19042"
+    environment:
+      - CASSANDRA_CQL_PORT_NUMBER=19042
+      - CASSANDRA_NUM_TOKENS=8
+      - CASSANDRA_SEEDS=test_node_0
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_DATACENTER=us-east
+      - CASSANDRA_RACK=rack1
+  test_node_1:
+    image: bitnami/cassandra:3.11.9
+    networks:
+      test_network_0:
+        ipv4_address: 172.16.238.43
+    ports:
+      - "19043:19043"
+    environment:
+      - CASSANDRA_CQL_PORT_NUMBER=19043
+      - CASSANDRA_NUM_TOKENS=8
+      - CASSANDRA_SEEDS=test_node_0
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_DATACENTER=us-east
+      - CASSANDRA_RACK=rack2
+    depends_on:
+      - test_node_0
+  test_node_2:
+    image: bitnami/cassandra:3.11.9
+    networks:
+      test_network_0:
+        ipv4_address: 172.16.238.44
+    ports:
+      - "19044:19044"
+    environment:
+      - CASSANDRA_CQL_PORT_NUMBER=19044
+      - CASSANDRA_NUM_TOKENS=8
+      - CASSANDRA_SEEDS=test_node_0
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_DATACENTER=us-east
+      - CASSANDRA_RACK=rack3
+    depends_on:
+      - test_node_0
+networks:
+  test_network_0:
+    ipam:
+      config:
+        - subnet: 172.16.238.0/24
